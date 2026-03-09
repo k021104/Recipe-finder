@@ -1,0 +1,324 @@
+/* ============================================
+   RecipeAI — Hero Section v2
+   Soft & Warm · Pastel · Cozy
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --hero-font-display: 'Playfair Display', Georgia, serif;
+  --hero-font-body: 'DM Sans', sans-serif;
+  --hero-accent: #c8651a;
+  --hero-accent-warm: #e8913a;
+  --hero-gradient: linear-gradient(135deg, #c8651a 0%, #e8913a 100%);
+  --hero-transition: 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Section ── */
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: clamp(480px, 75vh, 700px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: var(--hero-font-body);
+}
+
+/* ── Background image ── */
+.hero-bg {
+  position: absolute;
+  inset: -5%;
+  background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=85');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  will-change: transform;
+}
+
+/* ── Soft warm pastel overlay ──
+   Key difference from v1: much lighter, peachy-warm tone
+   not dark/dramatic — soft & cozy like morning light */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(15, 8, 3, 0.65) 0%,
+    rgba(25, 12, 4, 0.58) 40%,
+    rgba(140, 75, 20, 0.42) 100%
+  );
+  z-index: 1;
+}
+
+/* ── Content ── */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.2rem;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 6vw, 4rem);
+  max-width: 760px;
+  width: 100%;
+}
+
+/* ── App intro label ── */
+.hero-intro-label {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 220, 180, 0.95);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 12px rgba(200, 101, 26, 0.12);
+}
+
+/* ── Heading ── */
+.hero-heading {
+  font-family: var(--hero-font-display);
+  font-size: clamp(2.6rem, 6.5vw, 4.4rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+.hero-heading-accent {
+  font-style: italic;
+  font-weight: 700;
+  color: var(--hero-accent);
+  /* warm underline decoration */
+  position: relative;
+  display: inline-block;
+}
+
+.hero-heading-accent::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 4px;
+  right: 4px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #e8913a, #f5c07a);
+  opacity: 0.55;
+}
+
+/* ── Description ── */
+.hero-desc {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-weight: 400;
+  color: rgba(255, 240, 220, 0.95);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0;
+}
+
+/* ── CTA Button ── */
+.hero-cta {
+  border: none;
+  border-radius: 999px;
+  font-family: var(--hero-font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--hero-gradient);
+  padding: 0.9rem 2.2rem;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(200, 101, 26, 0.38), 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow var(--hero-transition);
+  margin-top: 0.25rem;
+}
+
+/* shimmer */
+.hero-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.28) 55%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.42s ease;
+}
+
+.hero-cta:hover {
+  box-shadow: 0 10px 32px rgba(200, 101, 26, 0.48),
+    0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.hero-cta:hover::after {
+  transform: translateX(100%);
+}
+
+/* ── Feature Pills ── */
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.35rem;
+}
+
+.hero-pill {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 235, 210, 0.95);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(200, 101, 26, 0.08);
+  letter-spacing: 0.01em;
+}
+
+/* ── Floating food emojis ── */
+.hero-float {
+  position: absolute;
+  z-index: 2;
+  font-size: 2rem;
+  pointer-events: none;
+  opacity: 0;
+  animation: floatIn 0.6s ease forwards, floatBob 4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+  }
+  to {
+    opacity: 0.75;
+    transform: scale(1) translateY(0);
+  }
+}
+@keyframes floatBob {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-12px) rotate(4deg);
+  }
+  66% {
+    transform: translateY(-6px) rotate(-3deg);
+  }
+}
+.float-1 {
+  top: 15%;
+  left: 6%;
+  animation-delay: 1s, 1s;
+  animation-duration: 0.6s, 5s;
+}
+.float-2 {
+  top: 60%;
+  left: 4%;
+  animation-delay: 1.2s, 1.2s;
+  animation-duration: 0.6s, 4.5s;
+}
+.float-3 {
+  top: 20%;
+  right: 6%;
+  animation-delay: 1.4s, 1.4s;
+  animation-duration: 0.6s, 5.5s;
+}
+.float-4 {
+  top: 65%;
+  right: 5%;
+  animation-delay: 1.6s, 1.6s;
+  animation-duration: 0.6s, 4.2s;
+}
+.float-5 {
+  top: 40%;
+  left: 3%;
+  animation-delay: 1.8s, 1.8s;
+  animation-duration: 0.6s, 6s;
+}
+
+/* ── Animated count in pill ── */
+.hero-pill-count {
+  font-weight: 700;
+  color: #a05015;
+}
+
+/* ── Description strong ── */
+.hero-desc strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+/* ── Hide floats on mobile ── */
+@media (max-width: 600px) {
+  .hero-float {
+    display: none;
+  }
+}
+
+/* ============================================
+   Responsive: Tablet (≤ 768px)
+   ============================================ */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: clamp(420px, 68vh, 580px);
+  }
+
+  .hero-desc {
+    font-size: 0.975rem;
+  }
+}
+
+/* ============================================
+   Responsive: Mobile (≤ 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  .hero-section {
+    min-height: clamp(400px, 65vh, 540px);
+  }
+
+  .hero-content {
+    gap: 1rem;
+    padding: 2rem 1.25rem;
+  }
+
+  .hero-heading {
+    font-size: clamp(2.1rem, 9vw, 2.8rem);
+  }
+
+  .hero-cta {
+    width: 100%;
+    font-size: 0.975rem;
+    padding: 0.85rem 1.5rem;
+  }
+
+  .hero-pills {
+    gap: 0.45rem;
+  }
+
+  .hero-pill {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.85rem;
+  }
+}

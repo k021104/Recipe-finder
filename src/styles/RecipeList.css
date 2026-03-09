@@ -1,0 +1,82 @@
+/* ── Pagination ── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 2rem 1rem 3rem;
+  width: 100%;
+}
+
+.pagination-btn {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-light);
+  border: 1.5px solid rgba(200, 101, 26, 0.25);
+  border-radius: 999px;
+  padding: 0.55rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #c8651a 0%, #e8913a 100%);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(200, 101, 26, 0.3);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pagination-num {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #7a6050;
+  background: #faf5ef;
+  border: 1.5px solid rgba(200, 160, 110, 0.3);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pagination-num:hover {
+  color: var(--accent);
+  background: var(--accent-light);
+  border-color: rgba(200, 101, 26, 0.3);
+  transform: translateY(-1px);
+}
+
+.pagination-num.active {
+  background: linear-gradient(135deg, #c8651a 0%, #e8913a 100%);
+  color: #fff;
+  border-color: transparent;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(200, 101, 26, 0.35);
+}
+
+/* Mobile — numbers kam karo */
+@media (max-width: 480px) {
+  .pagination-num {
+    width: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+  }
+
+  .pagination-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}

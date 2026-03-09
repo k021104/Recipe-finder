@@ -1,0 +1,303 @@
+/* ============================================
+   RecipeAI Navbar — Modern Food Website Style
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --nav-bg: rgba(255, 252, 248, 0.92);
+  --nav-border: rgba(220, 185, 140, 0.25);
+  --nav-shadow: 0 4px 24px rgba(160, 100, 40, 0.1),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  --accent-primary: #c8651a;
+  --accent-warm: #e8913a;
+  --accent-light: #fff3e8;
+  --text-primary: #2a1f14;
+  --text-secondary: #7a6050;
+  --logo-gradient: linear-gradient(
+    135deg,
+    #c8651a 0%,
+    #e8913a 60%,
+    #f5c07a 100%
+  );
+  --link-hover-bg: rgba(200, 101, 26, 0.08);
+  --transition-base: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-pill: 999px;
+  --radius-md: 12px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* ── Base Reset for Nav ── */
+.navbar *,
+.navbar *::before,
+.navbar *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Navbar Container ── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
+  height: 68px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: var(--nav-shadow);
+  font-family: var(--font-body);
+
+  /* Slide-in on page load */
+  animation: navbarReveal 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes navbarReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Logo ── */
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  background: var(--logo-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: opacity var(--transition-base);
+
+  /* Subtle decorative dot */
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.logo::before {
+  content: '✦';
+  font-size: 0.65rem;
+  background: var(--logo-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.7;
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.logo:hover {
+  opacity: 0.82;
+}
+
+/* ── Nav Links List ── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 0.25rem;
+}
+
+/* ── Individual Nav Items ── */
+.nav-links li {
+  font-family: var(--font-body);
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  position: relative;
+  transition: color var(--transition-base), background var(--transition-base),
+    transform var(--transition-base);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+
+  /* Underline slide effect */
+  overflow: hidden;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-links li::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: calc(100% - 2rem);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--logo-gradient);
+  transition: transform var(--transition-base);
+  transform-origin: center;
+}
+
+.nav-links li:hover {
+  color: var(--accent-primary);
+  background: var(--link-hover-bg);
+  transform: translateY(-1px);
+}
+
+.nav-links li:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.nav-links li:active {
+  transform: translateY(0px);
+  background: rgba(200, 101, 26, 0.13);
+}
+
+/* ── Active state (optional, for use with router) ── */
+.nav-links li.active {
+  color: var(--accent-primary);
+  background: var(--accent-light);
+  font-weight: 600;
+}
+
+.nav-links li.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ── Hamburger Button (hidden on desktop) ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  padding: 6px;
+  transition: background var(--transition-base);
+}
+
+.hamburger:hover {
+  background: var(--link-hover-bg);
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-primary);
+  transition: transform var(--transition-base), opacity var(--transition-base),
+    width var(--transition-base);
+  transform-origin: center;
+}
+
+/* Animated X when open */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ============================================
+   Responsive: Tablet (≤ 768px)
+   ============================================ */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.75rem clamp(1rem, 4vw, 1.5rem);
+    position: relative; /* allow menu to expand */
+  }
+
+  .logo {
+    font-size: 1.35rem;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.15rem;
+    padding: 0.5rem 0 0.75rem;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.28s ease;
+  }
+
+  .nav-links.open {
+    display: flex;
+    max-height: 320px;
+    opacity: 1;
+  }
+
+  .nav-links li {
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    font-size: 0.975rem;
+    color: var(--text-primary);
+  }
+
+  .nav-links li::after {
+    display: none;
+  }
+
+  .nav-links li:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   Responsive: Large Desktop (≥ 1200px)
+   ============================================ */
+@media (min-width: 1200px) {
+  .navbar {
+    padding: 0 clamp(2rem, 6vw, 5rem);
+    height: 72px;
+  }
+
+  .nav-links {
+    gap: 0.4rem;
+  }
+
+  .nav-links li {
+    font-size: 0.975rem;
+    padding: 0.55rem 1.25rem;
+  }
+}

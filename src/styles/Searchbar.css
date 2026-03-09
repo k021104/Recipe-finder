@@ -1,0 +1,279 @@
+/* ============================================
+   RecipeAI SearchBar — Warm Editorial Style
+   Pairs with Navbar design system
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ── CSS Variables (mirrors Navbar palette) ── */
+:root {
+  --sb-accent: #c8651a;
+  --sb-accent-warm: #e8913a;
+  --sb-accent-light: #fff3e8;
+  --sb-accent-glow: rgba(200, 101, 26, 0.18);
+  --sb-text-primary: #2a1f14;
+  --sb-text-muted: #9a7e6a;
+  --sb-bg-input: #fffdf9;
+  --sb-border-idle: rgba(200, 160, 110, 0.28);
+  --sb-border-focus: rgba(200, 101, 26, 0.55);
+  --sb-shadow-idle: 0 4px 20px rgba(160, 100, 40, 0.08), 0 1px 4px rgba(0,0,0,0.04);
+  --sb-shadow-focus: 0 6px 32px rgba(200, 101, 26, 0.16), 0 2px 8px rgba(0,0,0,0.06);
+  --sb-btn-gradient: linear-gradient(135deg, #c8651a 0%, #e8913a 100%);
+  --sb-btn-gradient-hover: linear-gradient(135deg, #b55a16 0%, #d4802e 100%);
+  --sb-font: 'DM Sans', 'Helvetica Neue', sans-serif;
+  --sb-font-display: 'Playfair Display', Georgia, serif;
+  --sb-radius-input: 999px;
+  --sb-transition: 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Wrapper ── */
+.searchbar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 2rem) clamp(1.5rem, 4vw, 3rem);
+  font-family: var(--sb-font);
+
+  animation: sbReveal 0.55s cubic-bezier(0.4, 0, 0.2, 1) 0.15s both;
+}
+
+@keyframes sbReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Optional eyebrow heading above search ── */
+.searchbar-wrapper::before {
+  content: 'What are you craving?';
+  display: block;
+  font-family: var(--sb-font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: var(--sb-text-muted);
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.01em;
+  opacity: 0.85;
+}
+
+/* ── Form ── */
+.searchbar-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 660px;
+  background: var(--sb-bg-input);
+  border: 1.5px solid var(--sb-border-idle);
+  border-radius: var(--sb-radius-input);
+  box-shadow: var(--sb-shadow-idle);
+  padding: 6px 6px 6px 1.4rem;
+  gap: 0;
+  transition:
+    border-color var(--sb-transition),
+    box-shadow var(--sb-transition),
+    background var(--sb-transition);
+
+  /* Search icon via pseudo-element */
+  overflow: visible;
+}
+
+/* Focus-within: lift the whole form */
+.searchbar-form:focus-within {
+  border-color: var(--sb-border-focus);
+  box-shadow: var(--sb-shadow-focus);
+  background: #ffffff;
+}
+
+/* ── Search icon (decorative, CSS only) ── */
+.searchbar-form::before {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a7e6a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-right: 0.65rem;
+  opacity: 0.7;
+  transition: opacity var(--sb-transition);
+  pointer-events: none;
+}
+
+.searchbar-form:focus-within::before {
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c8651a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+}
+
+/* ── Input field ── */
+.searchbar-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--sb-font);
+  font-size: clamp(0.925rem, 2vw, 1.025rem);
+  font-weight: 400;
+  color: var(--sb-text-primary);
+  padding: 0.7rem 0;
+  caret-color: var(--sb-accent);
+  letter-spacing: 0.01em;
+}
+
+.searchbar-input::placeholder {
+  color: var(--sb-text-muted);
+  opacity: 0.75;
+  font-style: italic;
+  transition: opacity var(--sb-transition), color var(--sb-transition);
+}
+
+.searchbar-input:focus::placeholder {
+  opacity: 0.45;
+}
+
+/* ── Submit button ── */
+.searchbar-btn {
+  flex-shrink: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: var(--sb-font);
+  font-size: 0.925rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  color: #fff;
+  background: var(--sb-btn-gradient);
+  padding: 0.65rem 1.6rem;
+  border-radius: 999px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: 0 3px 12px rgba(200, 101, 26, 0.35), 0 1px 3px rgba(0,0,0,0.10);
+  transition:
+    background var(--sb-transition),
+    box-shadow var(--sb-transition),
+    transform var(--sb-transition),
+    opacity var(--sb-transition);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer sweep on hover */
+.searchbar-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.22) 55%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.45s ease;
+}
+
+.searchbar-btn:hover {
+  background: var(--sb-btn-gradient-hover);
+  box-shadow: 0 5px 20px rgba(200, 101, 26, 0.42), 0 2px 6px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+}
+
+.searchbar-btn:hover::after {
+  transform: translateX(100%);
+}
+
+.searchbar-btn:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px rgba(200, 101, 26, 0.28);
+}
+
+/* ── Button icon (arrow) ── */
+.searchbar-btn::before {
+  content: '→';
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform var(--sb-transition);
+}
+
+.searchbar-btn:hover::before {
+  transform: translateX(3px);
+}
+
+/* ── Hint text below ── */
+.searchbar-hint {
+  margin-top: 0.85rem;
+  font-size: 0.8rem;
+  color: var(--sb-text-muted);
+  opacity: 0.65;
+  letter-spacing: 0.02em;
+  font-style: italic;
+}
+
+/* ============================================
+   Responsive: Tablet (≤ 768px)
+   ============================================ */
+@media (max-width: 768px) {
+  .searchbar-form {
+    max-width: 520px;
+    padding: 5px 5px 5px 1.1rem;
+  }
+
+  .searchbar-btn {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.875rem;
+    height: 38px;
+  }
+}
+
+/* ============================================
+   Responsive: Mobile (≤ 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  .searchbar-wrapper {
+    padding: 2rem 1rem 1.5rem;
+  }
+
+  .searchbar-wrapper::before {
+    font-size: 1.05rem;
+    text-align: center;
+  }
+
+  .searchbar-form {
+    max-width: 100%;
+    padding: 4px 4px 4px 1rem;
+    border-radius: 16px; /* pill → rounded rect on mobile */
+  }
+
+  .searchbar-input {
+    font-size: 0.95rem;
+  }
+
+  .searchbar-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    height: 38px;
+    border-radius: 12px;
+  }
+}
+
+/* ============================================
+   Responsive: Large Desktop (≥ 1200px)
+   ============================================ */
+@media (min-width: 1200px) {
+  .searchbar-form {
+    max-width: 760px;
+  }
+
+  .searchbar-btn {
+    padding: 0.7rem 2rem;
+    font-size: 0.975rem;
+    height: 46px;
+  }
+}

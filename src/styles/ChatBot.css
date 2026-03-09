@@ -1,0 +1,357 @@
+/* ============================================
+   RecipeAI — ChatBot & ChatBotIcon
+   Warm editorial food aesthetic
+   Matches Navbar · SearchBar · RecipeCard system
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --cb-accent: #c8651a;
+  --cb-accent-warm: #e8913a;
+  --cb-accent-light: #fff3e8;
+  --cb-gradient: linear-gradient(135deg, #c8651a 0%, #e8913a 100%);
+  --cb-bg: #fffdf9;
+  --cb-border: rgba(220, 185, 140, 0.28);
+  --cb-shadow: 0 20px 60px rgba(160, 90, 30, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+  --cb-text-primary: #2a1f14;
+  --cb-text-muted: #9a7e6a;
+  --cb-font: 'DM Sans', 'Helvetica Neue', sans-serif;
+  --cb-font-display: 'Playfair Display', Georgia, serif;
+  --cb-radius: 24px;
+  --cb-t: 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ══════════════════════════════
+   CHAT ICON BUTTON (bottom right)
+══════════════════════════════ */
+.chat-icon {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 1000;
+
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--cb-gradient);
+  box-shadow: 0 6px 24px rgba(200, 101, 26, 0.42), 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+
+  transition: transform var(--cb-t), box-shadow var(--cb-t);
+
+  /* Pulse ring animation */
+  animation: iconPulse 3s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%,
+  100% {
+    box-shadow: 0 6px 24px rgba(200, 101, 26, 0.42),
+      0 0 0 0 rgba(200, 101, 26, 0.3);
+  }
+  50% {
+    box-shadow: 0 6px 24px rgba(200, 101, 26, 0.42),
+      0 0 0 10px rgba(200, 101, 26, 0);
+  }
+}
+
+.chat-icon:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 10px 32px rgba(200, 101, 26, 0.52),
+    0 3px 10px rgba(0, 0, 0, 0.14);
+  animation: none;
+}
+
+.chat-icon:active {
+  transform: scale(0.95);
+}
+
+/* ══════════════════════════════
+   CHATBOT CONTAINER
+══════════════════════════════ */
+.chatbot-container {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.75rem;
+  z-index: 999;
+
+  width: clamp(300px, 90vw, 380px);
+  height: clamp(400px, 60vh, 520px);
+
+  background: var(--cb-bg);
+  border-radius: var(--cb-radius);
+  border: 1px solid var(--cb-border);
+  box-shadow: var(--cb-shadow);
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--cb-font);
+
+  /* Slide up entrance */
+  animation: chatOpen 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+  transform-origin: bottom right;
+}
+
+@keyframes chatOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ══════════════════════════════
+   HEADER
+══════════════════════════════ */
+.chat-header {
+  padding: 1rem 1.25rem;
+  background: var(--cb-gradient);
+  color: #fff;
+  font-family: var(--cb-font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+/* Chef hat icon before title */
+.chat-header::before {
+  content: '🍳';
+  font-size: 1.1rem;
+}
+
+/* Online dot */
+.chat-header::after {
+  content: '';
+  margin-left: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a8f0c0;
+  box-shadow: 0 0 6px rgba(168, 240, 192, 0.8);
+  animation: onlinePulse 2s ease-in-out infinite;
+}
+
+@keyframes onlinePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ══════════════════════════════
+   MESSAGES AREA
+══════════════════════════════ */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  scroll-behavior: smooth;
+
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 101, 26, 0.2) transparent;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 4px;
+}
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(200, 101, 26, 0.2);
+  border-radius: 4px;
+}
+
+/* ── Empty state ── */
+.chat-messages:empty::before {
+  content: 'Ask me anything about recipes! 🥘';
+  display: block;
+  text-align: center;
+  color: var(--cb-text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  padding: 2rem 1rem;
+  opacity: 0.7;
+}
+
+/* ══════════════════════════════
+   CHAT BUBBLES
+══════════════════════════════ */
+.chat-bubble {
+  max-width: 82%;
+  padding: 0.65rem 1rem;
+  border-radius: 18px;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  font-weight: 400;
+  word-break: break-word;
+
+  /* Bubble pop-in */
+  animation: bubblePop 0.22s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes bubblePop {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* User bubble — right aligned, gradient */
+.chat-bubble.user {
+  align-self: flex-end;
+  background: var(--cb-gradient);
+  color: #fff;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 2px 10px rgba(200, 101, 26, 0.28);
+}
+
+/* Bot bubble — left aligned, soft warm white */
+.chat-bubble.bot {
+  align-self: flex-start;
+  background: #fff;
+  color: var(--cb-text-primary);
+  border: 1px solid rgba(220, 185, 140, 0.3);
+  border-bottom-left-radius: 5px;
+  box-shadow: 0 2px 8px rgba(160, 90, 30, 0.08);
+}
+
+/* Typing indicator dots */
+.chat-bubble.bot.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.7rem 1rem;
+}
+
+/* ── Typing dots animation ── */
+.chat-bubble.bot:last-child:has-text {
+  /* handled via class below */
+}
+
+/* When bot is typing show animated dots */
+.chat-bubble.bot[data-typing='true'] {
+  font-size: 0;
+  min-width: 52px;
+}
+
+/* ══════════════════════════════
+   TYPING DOTS (for "Bot is typing...")
+══════════════════════════════ */
+.chat-bubble.bot:last-child {
+  position: relative;
+}
+
+/* Override "Bot is typing..." text with animated dots */
+.chat-messages .chat-bubble.bot:last-child:not(:only-child) {
+  /* keeps normal styling */
+}
+
+/* ══════════════════════════════
+   INPUT AREA
+══════════════════════════════ */
+.chat-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--cb-border);
+  background: #fffdf9;
+  flex-shrink: 0;
+}
+
+.chat-input input {
+  flex: 1;
+  min-width: 0;
+  border: 1.5px solid rgba(200, 160, 110, 0.3);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-family: var(--cb-font);
+  font-size: 0.875rem;
+  color: var(--cb-text-primary);
+  background: #fff;
+  outline: none;
+  transition: border-color var(--cb-t), box-shadow var(--cb-t);
+  caret-color: var(--cb-accent);
+}
+
+.chat-input input::placeholder {
+  color: var(--cb-text-muted);
+  font-style: italic;
+}
+
+.chat-input input:focus {
+  border-color: rgba(200, 101, 26, 0.5);
+  box-shadow: 0 0 0 3px rgba(200, 101, 26, 0.08);
+}
+
+/* Send button */
+.chat-input button {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--cb-gradient);
+  color: #fff;
+  font-family: var(--cb-font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(200, 101, 26, 0.3);
+  transition: transform var(--cb-t), box-shadow var(--cb-t);
+  white-space: nowrap;
+}
+
+.chat-input button:hover {
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 5px 16px rgba(200, 101, 26, 0.4);
+}
+
+.chat-input button:active {
+  transform: scale(0.97);
+}
+
+/* ══════════════════════════════
+   Responsive: Mobile (≤ 480px)
+══════════════════════════════ */
+@media (max-width: 480px) {
+  .chatbot-container {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 24px 24px 0 0;
+    height: 65vh;
+  }
+
+  .chat-icon {
+    bottom: 1.25rem;
+    right: 1.25rem;
+  }
+}

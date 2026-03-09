@@ -1,0 +1,182 @@
+/* ============================================
+   RecipeAI — Category Filter
+   Warm editorial food aesthetic
+   Pairs with Navbar + SearchBar + RecipeCard
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ── Design Tokens ── */
+:root {
+  --cf-accent: #c8651a;
+  --cf-accent-warm: #e8913a;
+  --cf-accent-light: #fff3e8;
+  --cf-accent-gradient: linear-gradient(135deg, #c8651a 0%, #e8913a 100%);
+  --cf-text-primary: #2a1f14;
+  --cf-text-muted: #9a7e6a;
+  --cf-bg-idle: #faf5ef;
+  --cf-border-idle: rgba(200, 160, 110, 0.3);
+  --cf-border-hover: rgba(200, 101, 26, 0.4);
+  --cf-shadow-btn: 0 2px 8px rgba(160, 100, 40, 0.1);
+  --cf-shadow-active: 0 4px 16px rgba(200, 101, 26, 0.3);
+  --cf-font: 'DM Sans', 'Helvetica Neue', sans-serif;
+  --cf-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Wrapper ── */
+.category-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: clamp(1rem, 3vw, 1.75rem) clamp(1rem, 4vw, 2.5rem);
+  font-family: var(--cf-font);
+
+  animation: cfReveal 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+
+@keyframes cfReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Section heading ── */
+.category-filter h3 {
+  font-family: var(--cf-font);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cf-text-muted);
+  margin: 0;
+}
+
+/* ── Buttons row ── */
+.category-filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 720px;
+}
+
+/* ── Individual pill button ── */
+.category-btn {
+  font-family: var(--cf-font);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cf-text-primary);
+  background: var(--cf-bg-idle);
+  border: 1.5px solid var(--cf-border-idle);
+  border-radius: 999px;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--cf-shadow-btn);
+  position: relative;
+  overflow: hidden;
+  transition: color var(--cf-transition), background var(--cf-transition),
+    border-color var(--cf-transition), box-shadow var(--cf-transition),
+    transform var(--cf-transition);
+}
+
+/* Shimmer on hover */
+.category-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.5) 55%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.38s ease;
+}
+
+/* ── Hover state ── */
+.category-btn:hover {
+  color: var(--cf-accent);
+  background: var(--cf-accent-light);
+  border-color: var(--cf-border-hover);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 14px rgba(200, 101, 26, 0.16);
+}
+
+.category-btn:hover::after {
+  transform: translateX(100%);
+}
+
+.category-btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Active / selected state ── */
+.category-btn.active {
+  background: var(--cf-accent-gradient);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: var(--cf-shadow-active);
+  font-weight: 600;
+  transform: translateY(-1px);
+}
+
+.category-btn.active:hover {
+  box-shadow: 0 6px 20px rgba(200, 101, 26, 0.38);
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* ── Stagger entrance per button ── */
+.category-btn:nth-child(1) {
+  animation: btnPop 0.35s ease 0.1s both;
+}
+.category-btn:nth-child(2) {
+  animation: btnPop 0.35s ease 0.15s both;
+}
+.category-btn:nth-child(3) {
+  animation: btnPop 0.35s ease 0.2s both;
+}
+.category-btn:nth-child(4) {
+  animation: btnPop 0.35s ease 0.25s both;
+}
+.category-btn:nth-child(5) {
+  animation: btnPop 0.35s ease 0.3s both;
+}
+.category-btn:nth-child(6) {
+  animation: btnPop 0.35s ease 0.35s both;
+}
+
+@keyframes btnPop {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ============================================
+   Responsive: Mobile (≤ 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  .category-filter {
+    padding: 1rem 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .category-btn {
+    font-size: 0.825rem;
+    padding: 0.45rem 1rem;
+  }
+}

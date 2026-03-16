@@ -203,11 +203,11 @@ export default function Footer () {
             © {year} Craves. Made with ♥ for food lovers everywhere.
           </p>
           <div className='footer-bottom-links'>
-            <a href='#' className='footer-bottom-link'>
+            <a href='/#' className='footer-bottom-link'>
               Privacy
             </a>
             <span className='footer-bottom-dot'>·</span>
-            <a href='#' className='footer-bottom-link'>
+            <a href='/#' className='footer-bottom-link'>
               Terms
             </a>
             <span className='footer-bottom-dot'>·</span>

@@ -124,9 +124,9 @@ export default function Categories () {
     setCategories(data || [])
   }
 
-  const handleCategoryClick = category => {
-    navigate(`/category/${category}`)
-  }
+  // const handleCategoryClick = category => {
+  //   navigate(`/category/${category}`)
+  // }
 
   /* ── UI-only state ── */
   const [loading, setLoading] = useState(true)

@@ -35,5 +35,5 @@ export const getAIResponse = async (message, conversationHistory) => {
   console.log(data)
   return data.choices[0].message.content
 
-  console.log(import.meta.env.VITE_GROQ_API_KEY)
+  // console.log(import.meta.env.VITE_GROQ_API_KEY)
 }

@@ -113,7 +113,7 @@ export default function Categories () {
   /* ── Original logic — UNCHANGED ── */
   const [categories, setCategories] = useState([])
   const [search, setSearch] = useState('')
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   useEffect(() => {
     fetchCategories()

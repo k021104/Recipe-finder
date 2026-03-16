@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import SearchBar from '../components/Searchbar'
 import RecipeList from '../components/RecipeList'
-import { searchRecipes, getRandomRecipes } from '../services/recipeApi'
+import { searchRecipes, getRecipesByCategory } from '../services/recipeApi'
 import CategoryFilter from '../components/CategoryFilter'
-import { getRecipesByCategory } from '../services/recipeApi'
 import ChatBotIcon from '../components/ChatBotIcon'
-// import { popularCategories } from '../data/PopularCategories'
 import HeroSection from '../components/Hero'
+import TrendingSlider from '../components/TrendingRecipes'
+import HomeCategories from '../components/HomeCategories'
 
 const Home = () => {
   const [recipes, setRecipes] = useState([])
-
-  useEffect(() => {
-    const loadRandom = async () => {
-      const randomRecipes = await getRandomRecipes()
-
-      setRecipes(randomRecipes)
-    }
-
-    loadRandom()
-  }, [])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleSearch = async query => {
+    setSearchQuery(query)
+    setLoading(true)
+    if (!query.trim()) {
+      setRecipes([])
+      return
+    }
     const results = await searchRecipes(query)
     setRecipes(results || [])
+    setLoading(false)
   }
 
   const handleCategory = async category => {
@@ -32,6 +31,7 @@ const Home = () => {
   }
 
   const handleAISearch = async query => {
+    setSearchQuery(query)
     const results = await searchRecipes(query)
     setRecipes(results || [])
   }
@@ -40,8 +40,14 @@ const Home = () => {
     <div className='home-page'>
       <HeroSection />
       <SearchBar onSearch={handleSearch} />
-      <CategoryFilter onSelectCategory={handleCategory} />
-      <RecipeList recipes={recipes} />
+      <HomeCategories onCategorySelect={handleCategory} />
+
+      {searchQuery ? (
+        <RecipeList recipes={recipes} loading={loading} />
+      ) : (
+        <TrendingSlider />
+      )}
+
       <ChatBotIcon onAISearch={handleAISearch} />
     </div>
   )

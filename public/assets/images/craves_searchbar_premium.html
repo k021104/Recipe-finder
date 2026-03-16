@@ -1,0 +1,434 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:wght@700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ac:#B85C1F;--ac2:#DC823C;--acl:#F5E6CC;
+  --acp:rgba(184,92,31,.10);--acpm:rgba(184,92,31,.22);
+  --td:#1a0e06;--tm:#6b5a4e;--tt:#b09a8a;
+  --bg:#fdfaf6;
+  --ee:cubic-bezier(.16,1,.3,1);--es:cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ── Keyframes ── */
+@keyframes fadeUp    {from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes iconFloat {0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes pulse     {0%{box-shadow:0 0 0 0 rgba(184,92,31,.35)}70%{box-shadow:0 0 0 10px rgba(184,92,31,0)}100%{box-shadow:0 0 0 0 rgba(184,92,31,0)}}
+@keyframes chipIn    {from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes dropIn    {from{opacity:0;transform:translateY(-8px) scaleY(.95)}to{opacity:1;transform:translateY(0) scaleY(1)}}
+@keyframes cursor    {0%,100%{opacity:1}50%{opacity:0}}
+@keyframes shimmer   {0%{background-position:-200% center}100%{background-position:200% center}}
+
+/* ── Page shell ── */
+.page{
+  min-height:100vh;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:40px 16px;
+  font-family:'DM Sans',sans-serif;
+}
+
+/* Section label */
+.section-tag{
+  font-size:.72rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ac);margin-bottom:10px;animation:fadeUp .6s var(--ee) .1s both;
+}
+.section-title{
+  font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);
+  font-weight:700;color:var(--td);margin-bottom:8px;text-align:center;
+  animation:fadeUp .7s var(--ee) .18s both;
+}
+.section-title em{font-style:italic;color:var(--ac)}
+.section-sub{
+  font-size:.9rem;color:var(--tt);margin-bottom:36px;text-align:center;
+  animation:fadeUp .7s var(--ee) .26s both;
+}
+
+/* ══════════════════════════
+   SEARCHBAR WRAPPER
+   ══════════════════════════ */
+.searchbar-wrapper{
+  width:100%;max-width:660px;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  animation:fadeUp .7s var(--ee) .34s both;
+  position:relative;
+}
+
+/* ══════════════════════════
+   FORM
+   ══════════════════════════ */
+.searchbar-form{
+  width:100%;
+  display:flex;align-items:center;
+  background:#ffffff;
+  border-radius:50px;
+  border:1.5px solid rgba(184,92,31,.18);
+  box-shadow:
+    0 4px 24px rgba(120,60,10,.09),
+    0 1px 4px rgba(120,60,10,.05);
+  padding:6px 6px 6px 20px;
+  gap:0;
+  transition:
+    transform .25s var(--es),
+    box-shadow .25s ease,
+    border-color .25s ease;
+  position:relative;
+  z-index:2;
+}
+.searchbar-form:hover{
+  transform:scale(1.015);
+  box-shadow:
+    0 8px 36px rgba(120,60,10,.13),
+    0 2px 8px rgba(120,60,10,.07);
+  border-color:rgba(184,92,31,.32);
+}
+.searchbar-form.focused{
+  border-color:var(--ac);
+  box-shadow:
+    0 0 0 4px rgba(184,92,31,.10),
+    0 8px 32px rgba(120,60,10,.12);
+  animation:pulse .6s ease-out;
+  transform:scale(1.02);
+}
+
+/* ── Search icon (left) ── */
+.sb-icon-left{
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  color:var(--ac);
+  margin-right:12px;
+  animation:iconFloat 2.5s ease-in-out infinite;
+  transition:color .2s,transform .2s;
+}
+.searchbar-form.focused .sb-icon-left{
+  animation:none;
+  color:#B85C1F;
+  transform:scale(1.12);
+}
+
+/* ── Input ── */
+.searchbar-input{
+  flex:1;
+  border:none;outline:none;
+  background:transparent;
+  font-family:'DM Sans',sans-serif;
+  font-size:clamp(.88rem,2vw,1rem);
+  font-weight:400;
+  color:var(--td);
+  line-height:1.5;
+  min-width:0;
+  caret-color:var(--ac);
+}
+.searchbar-input::placeholder{color:transparent} /* hide default — JS handles it */
+
+/* Typewriter placeholder layer */
+.sb-placeholder{
+  position:absolute;
+  left:calc(20px + 32px + 12px); /* padding + icon + gap */
+  top:50%;transform:translateY(-50%);
+  font-family:'DM Sans',sans-serif;
+  font-size:clamp(.88rem,2vw,1rem);
+  font-weight:400;
+  color:var(--tt);
+  pointer-events:none;
+  white-space:nowrap;overflow:hidden;
+  display:flex;align-items:center;gap:1px;
+  transition:opacity .2s;
+}
+.sb-placeholder.hidden{opacity:0}
+.sb-cursor-blink{
+  display:inline-block;width:1.5px;height:1em;
+  background:var(--ac);margin-left:1px;
+  animation:cursor .9s ease-in-out infinite;
+}
+
+/* ── Clear button ── */
+.sb-clear{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:50%;
+  border:none;background:transparent;
+  color:var(--tt);cursor:pointer;flex-shrink:0;
+  margin-right:6px;
+  opacity:0;transform:scale(.7);
+  transition:opacity .22s var(--es),transform .22s var(--es),color .2s,background .2s;
+  pointer-events:none;
+}
+.sb-clear.visible{opacity:1;transform:scale(1);pointer-events:auto}
+.sb-clear:hover{color:var(--ac);background:var(--acp)}
+
+/* ── Search button ── */
+.searchbar-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:11px 24px;
+  background:var(--ac);
+  color:#fff;
+  border:none;border-radius:999px;
+  font-family:'DM Sans',sans-serif;
+  font-size:.88rem;font-weight:600;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+  box-shadow:0 3px 14px rgba(184,92,31,.30),inset 0 1px 0 rgba(255,255,255,.16);
+  transition:background .2s,transform .22s var(--es),box-shadow .2s;
+}
+.searchbar-btn:hover{background:#9e4a14;transform:scale(1.04);box-shadow:0 6px 22px rgba(184,92,31,.42)}
+.searchbar-btn:active{transform:scale(.97)}
+
+/* ══════════════════════════
+   SUGGESTION CHIPS
+   ══════════════════════════ */
+.sb-chips{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  justify-content:center;
+  margin-top:14px;
+  padding:0 8px;
+}
+.sb-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 14px;
+  background:#fff;
+  border:1px solid rgba(184,92,31,.18);
+  border-radius:999px;
+  font-size:.76rem;font-weight:500;
+  color:var(--tm);cursor:pointer;
+  box-shadow:0 2px 8px rgba(120,60,10,.06);
+  transition:background .2s,border-color .2s,color .2s,transform .2s var(--es);
+  animation:chipIn .5s var(--ee) both;
+}
+.sb-chip:nth-child(1){animation-delay:.45s}
+.sb-chip:nth-child(2){animation-delay:.52s}
+.sb-chip:nth-child(3){animation-delay:.59s}
+.sb-chip:nth-child(4){animation-delay:.66s}
+.sb-chip:nth-child(5){animation-delay:.73s}
+.sb-chip:nth-child(6){animation-delay:.80s}
+.sb-chip:hover{background:var(--acp);border-color:var(--ac);color:var(--ac);transform:translateY(-2px)}
+
+/* ══════════════════════════
+   RECENT SEARCHES DROPDOWN
+   ══════════════════════════ */
+.sb-dropdown{
+  position:absolute;
+  top:calc(100% + 8px);
+  left:0;right:0;
+  background:#fff;
+  border:1px solid rgba(184,92,31,.14);
+  border-radius:20px;
+  box-shadow:0 12px 40px rgba(100,50,10,.12),0 4px 12px rgba(100,50,10,.06);
+  z-index:100;
+  overflow:hidden;
+  opacity:0;transform:translateY(-8px) scaleY(.97);
+  pointer-events:none;
+  transform-origin:top;
+  transition:opacity .25s var(--ee),transform .25s var(--ee);
+}
+.sb-dropdown.open{opacity:1;transform:translateY(0) scaleY(1);pointer-events:auto}
+
+.sb-dropdown-header{
+  padding:12px 18px 8px;
+  font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tt);
+  border-bottom:1px solid rgba(184,92,31,.08);
+}
+.sb-dropdown-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 18px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.sb-dropdown-item:hover{background:var(--acp)}
+.sb-dropdown-item:last-child{border-bottom:none}
+.sb-di-icon{
+  width:30px;height:30px;border-radius:8px;
+  background:var(--acp);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--ac);font-size:.8rem;
+}
+.sb-di-text{flex:1;font-size:.84rem;font-weight:500;color:var(--tm)}
+.sb-di-remove{
+  font-size:.7rem;color:var(--tt);
+  padding:2px 6px;border-radius:4px;
+  transition:color .15s,background .15s;
+}
+.sb-di-remove:hover{color:var(--ac);background:var(--acp)}
+
+/* Responsive */
+@media(max-width:600px){
+  .searchbar-btn span{display:none}
+  .searchbar-btn{padding:11px 14px}
+  .sb-placeholder{font-size:.82rem}
+}
+</style>
+
+<div class="page">
+  <p class="section-tag">Search</p>
+  <h2 class="section-title">What are you <em>craving?</em></h2>
+  <p class="section-sub">50,000+ recipes from every cuisine — find yours</p>
+
+  <div class="searchbar-wrapper" id="sbWrap">
+
+    <!-- Dropdown -->
+    <div class="sb-dropdown" id="sbDrop">
+      <div class="sb-dropdown-header">Recent Searches</div>
+      <div class="sb-dropdown-item" onclick="fillSearch('Spaghetti Carbonara')">
+        <div class="sb-di-icon">🍝</div>
+        <span class="sb-di-text">Spaghetti Carbonara</span>
+        <span class="sb-di-remove">✕</span>
+      </div>
+      <div class="sb-dropdown-item" onclick="fillSearch('Dal Makhani')">
+        <div class="sb-di-icon">🫘</div>
+        <span class="sb-di-text">Dal Makhani</span>
+        <span class="sb-di-remove">✕</span>
+      </div>
+      <div class="sb-dropdown-item" onclick="fillSearch('Chocolate Lava Cake')">
+        <div class="sb-di-icon">🍫</div>
+        <span class="sb-di-text">Chocolate Lava Cake</span>
+        <span class="sb-di-remove">✕</span>
+      </div>
+      <div class="sb-dropdown-item" onclick="fillSearch('Beef Wellington')">
+        <div class="sb-di-icon">🥩</div>
+        <span class="sb-di-text">Beef Wellington</span>
+        <span class="sb-di-remove">✕</span>
+      </div>
+    </div>
+
+    <form class="searchbar-form" id="sbForm" onsubmit="return false">
+
+      <!-- Search icon left -->
+      <span class="sb-icon-left">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </span>
+
+      <!-- Typewriter placeholder -->
+      <div class="sb-placeholder" id="sbPh">
+        <span id="sbPhText"></span><span class="sb-cursor-blink"></span>
+      </div>
+
+      <input
+        class="searchbar-input"
+        id="sbInput"
+        type="text"
+        autocomplete="off"
+        placeholder=""
+      />
+
+      <!-- Clear button -->
+      <button class="sb-clear" id="sbClear" type="button" tabindex="-1">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <!-- Search button -->
+      <button class="searchbar-btn" type="submit">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <span>Search</span>
+      </button>
+    </form>
+
+    <!-- Suggestion chips -->
+    <div class="sb-chips">
+      <span class="sb-chip" onclick="fillSearch('Pasta')">🍝 Pasta</span>
+      <span class="sb-chip" onclick="fillSearch('Dessert')">🍫 Dessert</span>
+      <span class="sb-chip" onclick="fillSearch('Indian')">🫘 Indian</span>
+      <span class="sb-chip" onclick="fillSearch('Seafood')">🦐 Seafood</span>
+      <span class="sb-chip" onclick="fillSearch('Breakfast')">🥞 Breakfast</span>
+      <span class="sb-chip" onclick="fillSearch('Vegetarian')">🥗 Vegetarian</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const form   = document.getElementById('sbForm');
+const input  = document.getElementById('sbInput');
+const ph     = document.getElementById('sbPh');
+const phText = document.getElementById('sbPhText');
+const clear  = document.getElementById('sbClear');
+const drop   = document.getElementById('sbDrop');
+
+// ── Typewriter ──
+const PHRASES = [
+  'Search for pasta recipes...',
+  'Find healthy breakfast ideas...',
+  'Try chocolate dessert recipes...',
+  'Discover Indian curry dishes...',
+  'Explore Italian classics...',
+  'Looking for quick 20-min meals?',
+];
+let pi = 0, ci = 0, typing = true, paused = false, twTimer;
+
+function typeStep() {
+  if (paused) { twTimer = setTimeout(typeStep, 100); return; }
+  const phrase = PHRASES[pi];
+  if (typing) {
+    if (ci < phrase.length) {
+      phText.textContent = phrase.slice(0, ++ci);
+      twTimer = setTimeout(typeStep, 48 + Math.random() * 28);
+    } else {
+      typing = false;
+      twTimer = setTimeout(typeStep, 1600);
+    }
+  } else {
+    if (ci > 0) {
+      phText.textContent = phrase.slice(0, --ci);
+      twTimer = setTimeout(typeStep, 28);
+    } else {
+      typing = true;
+      pi = (pi + 1) % PHRASES.length;
+      twTimer = setTimeout(typeStep, 300);
+    }
+  }
+}
+typeStep();
+
+// ── Input events ──
+input.addEventListener('input', () => {
+  const has = input.value.length > 0;
+  ph.classList.toggle('hidden', has);
+  clear.classList.toggle('visible', has);
+  paused = has;
+  if (!has) paused = false;
+});
+
+input.addEventListener('focus', () => {
+  form.classList.add('focused');
+  paused = input.value.length > 0;
+  setTimeout(() => drop.classList.add('open'), 80);
+});
+
+input.addEventListener('blur', () => {
+  form.classList.remove('focused');
+  if (!input.value) paused = false;
+  setTimeout(() => drop.classList.remove('open'), 180);
+});
+
+// ── Clear ──
+clear.addEventListener('click', () => {
+  input.value = '';
+  ph.classList.remove('hidden');
+  clear.classList.remove('visible');
+  paused = false;
+  input.focus();
+});
+
+// ── Fill from chip / dropdown ──
+function fillSearch(val) {
+  input.value = val;
+  ph.classList.add('hidden');
+  clear.classList.add('visible');
+  paused = true;
+  drop.classList.remove('open');
+  input.focus();
+}
+
+// Close dropdown on outside click
+document.addEventListener('mousedown', e => {
+  if (!document.getElementById('sbWrap').contains(e.target))
+    drop.classList.remove('open');
+});
+</script>

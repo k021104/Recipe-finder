@@ -7,27 +7,35 @@ import ChatBotIcon from '../components/ChatBotIcon'
 import HeroSection from '../components/Hero'
 import TrendingSlider from '../components/TrendingRecipes'
 import HomeCategories from '../components/HomeCategories'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
+  const navigate = useNavigate()
+
   const [recipes, setRecipes] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleSearch = async query => {
     setSearchQuery(query)
-    setLoading(true)
     if (!query.trim()) {
       setRecipes([])
       return
     }
+    setLoading(true)
     const results = await searchRecipes(query)
     setRecipes(results || [])
     setLoading(false)
   }
 
-  const handleCategory = async category => {
-    const results = await getRecipesByCategory(category)
-    setRecipes(results || [])
+  // // const handleCategory = async category => {
+  // //   const results = await getRecipesByCategory(category)
+  // //   setRecipes(results || [])
+  // setSearchQuery(category)
+  // // }
+
+  const handleCategoryClick = name => {
+    navigate(`/category/${name}`)
   }
 
   const handleAISearch = async query => {
@@ -40,7 +48,7 @@ const Home = () => {
     <div className='home-page'>
       <HeroSection />
       <SearchBar onSearch={handleSearch} />
-      <HomeCategories onCategorySelect={handleCategory} />
+      <HomeCategories onCategorySelect={handleCategoryClick} />
 
       {searchQuery ? (
         <RecipeList recipes={recipes} loading={loading} />

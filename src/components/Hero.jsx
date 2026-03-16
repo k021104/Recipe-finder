@@ -40,7 +40,7 @@ const PROOF = [
   { initials: 'NT', bg: '#6B21A8' }
 ]
 
-const SPARK_COLORS = ['#B85C1F', '#DC823C', '#F5E6CC', '#F59E0B', '#B45309']
+// const SPARK_COLORS = ['#B85C1F', '#DC823C', '#F5E6CC', '#F59E0B', '#B45309']
 
 export default function Hero () {
   const [active, setActive] = useState(0)

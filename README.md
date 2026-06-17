@@ -42,15 +42,14 @@ recipe-finder-app/ | public/ | src/ | assets/ | components/ | pages/ | App.js | 
 ```bash
 git clone https://github.com/k021104/recipe-finder
 
-### Navigate to the project directory
+Navigate to the project directory
 cd recipe-finder-app
 
-### Install dependencies
+Install dependencies
 npm install
 
-### Start the development server
+Start the development server
 npm start
 
-### The application will run at:
+The application will run at:
 http://localhost:3000
-

@@ -52,4 +52,8 @@ Start the development server
 npm start
 
 The application will run at:
-http://localhost:3000
+https://recipe-finder-puce-ten.vercel.app/
+
+### AI Chatbot
+The AI chatbot can:
+  
